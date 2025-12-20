@@ -97,7 +97,7 @@ std::pair<Vertex, Vertex> Ant::select_next_pair(
     double alpha,
     double beta
 ) {
-    const int K = 10000;              // Candidatos finales
+    const int K = 1000;              // Candidatos finales
     const int MAX_ATTEMPTS = K * 3; // Intentos de muestreo
 
     // Construir listas de nodos no mapeados
