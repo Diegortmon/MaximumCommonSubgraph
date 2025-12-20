@@ -9,8 +9,8 @@
 namespace mcs {
 
 struct ACOParams {
-    int num_ants = 30;
-    int max_iterations = 150000;
+    int num_ants = 14;
+    int max_iterations = 800;
     double alpha = 1.0;
     double beta = 3.0;
     double rho = 0.1;

@@ -84,7 +84,7 @@ def generate_all(output_dir="instances_mcsi", seed=42):
     print("\nGenerando instancias MCIS significativas...\n")
 
     print("[1] Isomorfos grandes")
-    v1, e1, v2, e2 = gen.isomorphic_pair(n=100, p=0.3)
+    v1, e1, v2, e2 = gen.isomorphic_pair(n=1000, p=0.4)
     gen.save_graph(f"{output_dir}/iso_large_g1.txt", v1, e1)
     gen.save_graph(f"{output_dir}/iso_large_g2.txt", v2, e2)
 

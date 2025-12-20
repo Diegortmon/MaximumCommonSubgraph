@@ -30,6 +30,11 @@ public:
 
     int count_edges(const Graph& g1, const Graph& g2) const;
 
+     const std::unordered_map<Vertex, Vertex>& get_mapping() const { 
+        return mapping_; 
+    }
+    
+    // Mantener get_nodes_vector() para compatibilidad
     std::vector<std::pair<Vertex, Vertex>> get_nodes_vector() const;
 
     void clear();

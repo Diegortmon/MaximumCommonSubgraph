@@ -6,6 +6,7 @@ sources = files(
   'main/pheromone.cpp',
   'main/reader.cpp',
   'main/main.cpp',
+  'main/graphy.cpp'
 )
 
 headers = files(
@@ -14,5 +15,6 @@ headers = files(
   'include/pheromone.hpp',
   'include/ant.hpp',
   'include/aco.hpp',
-  'include/reader.hpp'
+  'include/reader.hpp',
+  'include/graphy.hpp'
 )
