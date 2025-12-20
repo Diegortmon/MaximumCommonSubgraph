@@ -10,7 +10,7 @@ namespace mcs {
 
 struct ACOParams {
     int num_ants = 14;
-    int max_iterations = 800;
+    int max_iterations = 1000;
     double alpha = 1.0;
     double beta = 3.0;
     double rho = 0.1;

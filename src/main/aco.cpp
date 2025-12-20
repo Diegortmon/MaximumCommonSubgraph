@@ -32,12 +32,6 @@ Mapping ACO::solve() {
 
     for (int iter = 0; iter < params_.max_iterations; ++iter) {
         run_iteration(iter);
-
-        if (iter % 10 == 0) {
-            std::cout << "Iter " << std::setw(5) << iter
-                      << " | best_size = " << best_score_
-                      << " | best_edges = " << best_edges_ << "\n";
-        }
     }
 
     std::cout << "\nFinal: " << best_score_ << " vertices, " << best_edges_

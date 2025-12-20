@@ -1,0 +1,102 @@
+Leyendo grafos...
+   G1: 79 vértices (desde instances_mcsi/core_noise_g1.txt)
+   G2: 100 vértices (desde instances_mcsi/core_noise_g2.txt)
+
+ Parámetros ACO:
+   Hormigas:     14
+   Iteraciones:  1000
+   Alpha (τ):    1.00
+   Beta (η):     3.00
+   Rho (evap):   0.10
+   Semilla:      10 ⭐
+
+Ejecutando ACO para MCIS...
+============================================================
+
+ACO (MCIS inducido)
+G1 vertices: 79
+G2 vertices: 100
+Hormigas: 14
+Iteraciones: 1000
+
+
+Final: 67 vertices, 344 edges
+
+============================================================
+RESULTADO FINAL
+============================================================
+
+Estadísticas:
+   Nodos mapeados: 67
+   Aristas:        344
+   Factible:       ok (por construcción)
+
+Mapeo encontrado:
+   v50             → v73
+   v78             → v76
+   v42             → v43
+   v44             → v79
+   v76             → v56
+   v40             → v91
+   v68             → v74
+   v49             → v65
+   v8              → v8
+   v36             → v36
+   v48             → v83
+   v13             → v13
+   v63             → v40
+   v34             → v34
+   v24             → v24
+   v70             → v86
+   v6              → v6
+   v11             → v11
+   v10             → v10
+   v58             → v78
+   v9              → v9
+   v1              → v1
+   v79             → v42
+   v57             → v89
+   v26             → v26
+   v27             → v27
+   v53             → v61
+   v41             → v57
+   v5              → v5
+   v30             → v30
+   v69             → v92
+   v12             → v12
+   v73             → v82
+   v19             → v19
+   v62             → v68
+   v31             → v31
+   v39             → v39
+   v59             → v45
+   v18             → v18
+   v33             → v33
+   v16             → v16
+   v4              → v4
+   v61             → v63
+   v0              → v0
+   v60             → v47
+   v15             → v15
+   v35             → v35
+   v17             → v17
+   v52             → v70
+   v22             → v22
+   v38             → v38
+   v28             → v28
+   v2              → v2
+   v23             → v23
+   v14             → v14
+   v72             → v50
+   v25             → v25
+   v75             → v85
+   v29             → v29
+   v7              → v7
+   v20             → v20
+   v37             → v37
+   v32             → v32
+   v64             → v88
+   v21             → v21
+   v54             → v96
+   v3              → v3
+
