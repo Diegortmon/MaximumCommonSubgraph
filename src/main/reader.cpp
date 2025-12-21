@@ -26,7 +26,7 @@ Graph Reader::read_graph(const std::string& filename) {
         }
     }
 
-    // Crear grafo
+    // Crear grafoca
     Graph g(id_to_name_.size());
     for (const auto& [u_name, v_name] : edges) {
         int u = name_to_id_[u_name];

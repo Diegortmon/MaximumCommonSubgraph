@@ -11,10 +11,10 @@
 using namespace mcs;
 
 void print_usage(const char* program_name) {
-    std::cout << "Uso: " << program_name << " <grafo1.txt> <grafo2.txt> --seed <n> [opciones]\n\n";
+    std::cout << "Uso: " << program_name << " <gráfica1.txt> <gráfica2.txt> --seed <n> [opciones]\n\n";
     std::cout << "Argumentos obligatorios:\n";
-    std::cout << "  <grafo1.txt>        Archivo del primer grafo\n";
-    std::cout << "  <grafo2.txt>        Archivo del segundo grafo\n";
+    std::cout << "  <gráfica1.txt>      Archivo de la primera gráfica\n";
+    std::cout << "  <gráfica2.txt>      Archivo de la segunda gráfica\n";
     std::cout << "  --seed <n>          Semilla aleatoria (OBLIGATORIO)\n\n";
     std::cout << "Opciones:\n";
     std::cout << "  --ants <n>          Número de hormigas (default: 20)\n";
@@ -121,128 +121,88 @@ void print_params(const ACOParams& params) {
     std::cout << "   Alpha (τ):    " << std::fixed << std::setprecision(2) << params.alpha << "\n";
     std::cout << "   Beta (η):     " << params.beta << "\n";
     std::cout << "   Rho (evap):   " << params.rho << "\n";
-    std::cout << "   Semilla:      " << params.seed << " ⭐\n";
+    std::cout << "   Semilla:      " << params.seed << " \n";
     std::cout << "═══════════════════════════════════════════════════════════\n\n";
 }
 
+/**
+ * @brief Programa principal para encontrar la máxima subgráfica común inducida (MCIS) entre dos gráficas.
+ *
+ * Lee dos gráficas desde archivos, ejecuta el algoritmo ACO y exporta la solución y visualizaciones.
+ */
 int main(int argc, char* argv[]) {
     try {
         std::string file1, file2, output_base;
         ACOParams params = parse_arguments(argc, argv, file1, file2, output_base);
 
-        std::cout << "Leyendo grafos...\n";
         Reader reader1, reader2;
         Graph g1 = reader1.read_graph(file1);
         Graph g2 = reader2.read_graph(file2);
 
-        std::cout << "   G1: " << g1.num_vertices() << " vértices (desde " << file1 << ")\n";
-        std::cout << "   G2: " << g2.num_vertices() << " vértices (desde " << file2 << ")\n\n";
-
         print_params(params);
-
-        std::cout << "Ejecutando ACO para MCIS...\n\n";
 
         ACO aco(g1, g2, params);
         Mapping solution = aco.solve();
 
-        std::cout << "\n═══════════════════════════════════════════════════════════\n";
-        std::cout << " RESULTADO FINAL\n";
-        std::cout << "═══════════════════════════════════════════════════════════\n\n";
-
-        std::cout << "Estadísticas:\n";
-        std::cout << "   Nodos mapeados: " << solution.size() << "\n";
-        std::cout << "   Aristas:        " << solution.count_edges(g1, g2) << "\n";
-        std::cout << "   Factible:       ✓ (MCIS inducido válido)\n\n";
-
         if (solution.size() == 0) {
-            std::cout << "Mapeo: (vacío - no se encontró subgrafo común)\n\n";
+            std::cout << "Mapeo: (vacío - no se encontró subgrafica común)\n\n";
             return 0;
         }
 
-        // Mostrar mapeo
+        // Mostrar mapeo        
         const auto& names1 = reader1.id_to_name();
         const auto& names2 = reader2.id_to_name();
 
-        std::cout << "Mapeo encontrado:\n";
+        // Mostrar mapeo encontrado
         int shown = 0;
-        
         for (const auto& [u, v] : solution.get_nodes_vector()) {
             std::cout << "   " << std::setw(15) << std::left << names1[u]
                       << " → " << names2[v] << "\n";
             shown++;
         }
 
-        // ====================================================================
-        // EXPORTAR SIEMPRE (con nombre base o default)
-        // ====================================================================
+        /**
+         * Exporta siempre la MCIS como archivo, usando el nombre base o uno por defecto.
+         */
         std::string mcis_file = output_base.empty() ? "resultado.mcis" : output_base + ".mcis";
-        
-        std::cout << "\n═══════════════════════════════════════════════════════════\n";
-        std::cout << " EXPORTANDO GRAFO MCIS\n";
-        std::cout << "═══════════════════════════════════════════════════════════\n";
-        
         solution.export_mcis(g1, g2, names1, names2, mcis_file);
 
-        // ====================================================================
-        // GENERAR VISUALIZACIONES (solo si se especificó --output)
-        // ====================================================================
-        if (!output_base.empty()) {
-            std::cout << "\n═══════════════════════════════════════════════════════════\n";
-            std::cout << " GENERANDO VISUALIZACIONES\n";
-            std::cout << "═══════════════════════════════════════════════════════════\n";
+        /**
+         * Genera siempre visualizaciones SVG de ambas gráficas y la solución MCIS.
+         * Si no se especifica --output, usa nombres por defecto.
+         */
+        std::string svg_g1 = output_base.empty() ? "resultado_g1.svg" : output_base + "_g1.svg";
+        std::string svg_g2 = output_base.empty() ? "resultado_g2.svg" : output_base + "_g2.svg";
+        std::string svg_solucion = output_base.empty() ? "resultado_solucion.svg" : output_base + "_solucion.svg";
 
-            // Construir nombres de archivos
-            std::string svg_g1 = output_base + "_g1.svg";
-            std::string svg_g2 = output_base + "_g2.svg";
-            std::string svg_solucion = output_base + "_solucion.svg";
-
-            // 1. Visualizar G1 COMPLETO
-            std::vector<int> all_vertices_g1;
-            for (int i = 0; i < static_cast<int>(g1.num_vertices()); ++i) {
-                all_vertices_g1.push_back(i);
-            }
-            
-            Graphy viz_g1(g1, reader1.id_to_name());
-            viz_g1.dibujaSubgrafoInducidoCircular(all_vertices_g1, svg_g1);
-
-            // 2. Visualizar G2 COMPLETO
-            std::vector<int> all_vertices_g2;
-            for (int i = 0; i < static_cast<int>(g2.num_vertices()); ++i) {
-                all_vertices_g2.push_back(i);
-            }
-            
-            Graphy viz_g2(g2, reader2.id_to_name());
-            viz_g2.dibujaSubgrafoInducidoCircular(all_vertices_g2, svg_g2);
-
-            // 3. Visualizar SOLUCIÓN (MCIS con nombres combinados)
-            std::vector<int> subset_g1;
-            std::vector<std::string> combined_names;
-            
-            for (const auto& [u, v] : solution.get_nodes_vector()) {
-                subset_g1.push_back(u);
-                
-                std::string name_u = (u < static_cast<int>(names1.size())) 
-                                    ? names1[u] : std::to_string(u);
-                std::string name_v = (v < static_cast<int>(names2.size())) 
-                                    ? names2[v] : std::to_string(v);
-                combined_names.push_back(name_u + "|" + name_v);
-            }
-            
-            Graphy viz_solucion(g1, combined_names);
-            viz_solucion.dibujaSubgrafoInducidoCircular(subset_g1, svg_solucion);
-
-            std::cout << "\nArchivos generados:\n";
-            std::cout << "   📊 " << svg_g1 << " (G1 completo)\n";
-            std::cout << "   📊 " << svg_g2 << " (G2 completo)\n";
-            std::cout << "   ✨ " << svg_solucion << " (MCIS solución)\n";
-            std::cout << "   📄 " << mcis_file << " (grafo MCIS)\n";
-        } else {
-            std::cout << "\nArchivo generado:\n";
-            std::cout << "   📄 " << mcis_file << " (grafo MCIS)\n";
-            std::cout << "\nTip: usa --output <nombre> para generar también visualizaciones SVG\n";
+        std::vector<int> all_vertices_g1;
+        for (int i = 0; i < static_cast<int>(g1.num_vertices()); ++i) {
+            all_vertices_g1.push_back(i);
         }
+        Graphy viz_g1(g1, reader1.id_to_name());
+        viz_g1.dibujaSubgraficaInducidaCircular(all_vertices_g1, svg_g1);
 
-        std::cout << "\n";
+        std::vector<int> all_vertices_g2;
+        for (int i = 0; i < static_cast<int>(g2.num_vertices()); ++i) {
+            all_vertices_g2.push_back(i);
+        }
+        Graphy viz_g2(g2, reader2.id_to_name());
+        viz_g2.dibujaSubgraficaInducidaCircular(all_vertices_g2, svg_g2);
+
+        std::vector<int> subset_g1;
+        std::vector<std::string> combined_names;
+        for (const auto& [u, v] : solution.get_nodes_vector()) {
+            subset_g1.push_back(u);
+            std::string name_u = (u < static_cast<int>(names1.size())) 
+                                ? names1[u] : std::to_string(u);
+            std::string name_v = (v < static_cast<int>(names2.size())) 
+                                ? names2[v] : std::to_string(v);
+            combined_names.push_back(name_u + "|" + name_v);
+        }
+        Graphy viz_solucion(g1, combined_names);
+        viz_solucion.dibujaSubgraficaInducidaCircular(subset_g1, svg_solucion);
+
+
         return 0;
 
     } catch (const std::exception& e) {

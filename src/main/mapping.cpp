@@ -142,7 +142,7 @@ void Mapping::export_mcis(const Graph& g1,
             const auto& [u1, v1] = nodes[i];
             const auto& [u2, v2] = nodes[j];
 
-            // Verificar que la arista existe en ambos grafos (MCIS inducido)
+            // Verificar que la arista existe en ambos graficas (MCIS inducido)
             if (g1.edge(u1, u2) && g2.edge(v1, v2)) {
                 out << combined_names[i] << " " << combined_names[j] << "\n";
                 edge_count++;

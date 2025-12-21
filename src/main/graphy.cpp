@@ -55,13 +55,13 @@ std::string Graphy::dibujaVertice(
     return s;
 }
 
-void Graphy::dibujaSubgrafoInducidoCircular(
+void Graphy::dibujaSubgraficaInducidaCircular(
     const std::vector<int>& subset,
     const std::string& output_file
 ) {
     const int k = static_cast<int>(subset.size());
     if (k == 0) {
-        std::cout << "[Graphy] Subgrafo vacío, no se genera SVG.\n";
+        std::cout << "[Graphy] Subgrafica vacío, no se genera SVG.\n";
         return;
     }
 
@@ -127,9 +127,6 @@ void Graphy::dibujaSubgrafoInducidoCircular(
     
     out << svg_;
     out.close();
-
-    std::cout << "[Graphy] Subgrafo MCIS guardado en: "
-              << output_file << " (" << k << " vértices)\n";
 }
 
 } // namespace mcs

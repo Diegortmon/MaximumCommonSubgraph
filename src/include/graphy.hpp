@@ -8,11 +8,11 @@ namespace mcs {
 
 class Graphy {
 public:
-    // Constructor: recibe el grafo Y el mapeo id->nombre
+    // Constructor: recibe el grafica Y el mapeo id->nombre
     explicit Graphy(const Graph& graph, 
                    const std::vector<std::string>& id_to_name);
 
-    void dibujaSubgrafoInducidoCircular(
+    void dibujaSubgraficaInducidaCircular(
         const std::vector<int>& subset,
         const std::string& output_file
     );

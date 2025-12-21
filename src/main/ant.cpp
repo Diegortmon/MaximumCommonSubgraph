@@ -97,6 +97,8 @@ std::pair<Vertex, Vertex> Ant::select_next_pair(
     double alpha,
     double beta
 ) {
+
+    // Parámetros de muestreo
     const int K = 1000;              // Candidatos finales
     const int MAX_ATTEMPTS = K * 3; // Intentos de muestreo
 
